@@ -65,6 +65,12 @@ func main () {
 		fmt.Printf("Slice length: %v\n", len(bookings))	
 	*/
 
+	/*
+		# Declaring a Boolean Variable
+		var noTicketsRemaining bool = remainingTickets == 0
+		noTicketsRemaining := remainingTickets == 0
+	*/
+
 	for {
 		var firstName string
 		var lastName string
@@ -83,19 +89,30 @@ func main () {
 		fmt.Print("Enter number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		remainingTickets = remainingTickets - userTickets
-		bookings = append(bookings, firstName + " " + lastName)
-
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-		var firstNames = []string{}
-		for _,booking := range bookings {
-			name := strings.Fields(booking)[0]
-			firstNames = append(firstNames, name)
+		if userTickets <= remainingTickets {
+			remainingTickets = remainingTickets - userTickets
+			bookings = append(bookings, firstName + " " + lastName)
+	
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+	
+			var firstNames = []string{}
+			for _,booking := range bookings {
+				name := strings.Fields(booking)[0]
+				firstNames = append(firstNames, name)
+			}
+	
+			fmt.Printf("These are all our bookings: %v\n", firstNames)
+	
+			if remainingTickets == 0 {
+				// end program
+				fmt.Println("Our conference is booked out. Come back next year. ")
+				break
+			}
+		} else {
+			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
 		}
 
-		fmt.Printf("These are all our bookings: %v\n", firstNames)
 	}
 
 }
