@@ -2,15 +2,19 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	// "strings"
 	"go-course/helper"
+	"strconv"
 )
 
 // Example of variable declaration
 const conferenceTicket int = 50
 var conferenceName = "Go conference"
 var remainingTickets uint = 50
-var bookings = []string{}
+// list of slice
+// var bookings = []string{}
+// list of map
+var bookings = make([]map[string]string, 0)
 
 func main () {
 	// fmt.Printf("conferenceName is %T conferenceTicket is %T remainingTickets is %T \n", conferenceName, conferenceTicket, remainingTickets)
@@ -130,8 +134,11 @@ func greetUsers() {
 func getFirstName() []string {
 	var firstNames = []string{}
 	for _,booking := range bookings {
-		name := strings.Fields(booking)[0]
-		firstNames = append(firstNames, name)
+		/*
+			// Using slice
+			name := strings.Fields(booking)[0]
+		*/
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	
 	return firstNames
@@ -160,7 +167,20 @@ func getUserInput()(string, string, string, uint) {
 
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
-	bookings = append(bookings, firstName + " " + lastName)
+
+	// Create a map for a user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+	// using slice
+	// bookings = append(bookings, firstName + " " + lastName)
+
+	// using list of map
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is %v\n", bookings)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
