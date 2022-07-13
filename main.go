@@ -4,7 +4,7 @@ import (
 	"fmt"
 	// "strings"
 	"go-course/helper"
-	"strconv"
+	// "strconv"
 )
 
 // Example of variable declaration
@@ -14,7 +14,16 @@ var remainingTickets uint = 50
 // list of slice
 // var bookings = []string{}
 // list of map
-var bookings = make([]map[string]string, 0)
+// var bookings = make([]map[string]string, 0)
+// list of struct
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName string
+	lastName string
+	email string
+	numberOfTickets uint
+}
 
 func main () {
 	// fmt.Printf("conferenceName is %T conferenceTicket is %T remainingTickets is %T \n", conferenceName, conferenceTicket, remainingTickets)
@@ -133,12 +142,17 @@ func greetUsers() {
 
 func getFirstName() []string {
 	var firstNames = []string{}
+	/*
+	booking as map
 	for _,booking := range bookings {
-		/*
 			// Using slice
 			name := strings.Fields(booking)[0]
-		*/
 		firstNames = append(firstNames, booking["firstName"])
+	}
+	*/
+	
+	for _,booking := range bookings {
+		firstNames = append(firstNames,booking.firstName)
 	}
 	
 	return firstNames
@@ -169,11 +183,21 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 	remainingTickets = remainingTickets - userTickets
 
 	// Create a map for a user
-	var userData = make(map[string]string)
+	// var userData = make(map[string]string)
+	/*
 	userData["firstName"] = firstName
 	userData["lastName"] = lastName
 	userData["email"] = email
 	userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	*/
+
+	// Create a struct for user
+	var userData = UserData {
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		numberOfTickets: userTickets,
+	}
 
 	// using slice
 	// bookings = append(bookings, firstName + " " + lastName)
